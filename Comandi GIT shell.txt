@@ -1,0 +1,37 @@
+LAVORARE CON MOLTA CAUTELA.
+
+git clone + indirizzo repository che sta su github (clone or download) -> copia della repository sul PC
+
+git status -> stato del tuo lavoro, cioè se ci sono file da committare ecc...
+
+File rosso da committare, File verde committato, File non c'è più, guarda su github
+
+git add -A -> prende tutti i file rossi e li prepara al commit
+
+git commit -m "messaggiodelcommit" ->
+
+file config, in cui vengono inserite le informazioni sull'account di github
+
+git config --global user.email "EMAIL GITHUB" || git config --global user.name "NICKNAME GITHUB"-> ti permette di configurare le informazioni dell'accounti github (chi sta committando)
+
+git pull origin NOMEBRANCH (master) -> ti riprende quello che già è nella repository, in caso di eventuali modifiche fatte precedentemente da altre persone
+
+git push origin NOMEBRANCH(master) -> invia il file nella repository
+
+git branch -> elenco di tutti i branch esistenti
+
+---NOMEBRANCH tutto minuscolo---
+
+git checkout -b NOMEBRANCH -> crea un nuovo branch che possiede tutte le cose del mastergit
+
+Una volta fatto add - push sul branch, il file modificato/aggiunto rimane sul branch. Per passarlo al master, bisogna ritornare al master con il comando:
+git checkout master
+Dopo che si è sul master, bisogna fare il merge di quello che si vuole fondere tra i vari branch e il master 
+git merge --no-f NOMEBRANCH -> fa il merge sul master
+
+infine fare il push "git push origin master"
+
+Per vedere le differenze, github -> commits -> numeri e lettere a caso a dx
+
+git branch -d NOMEBRANCH -> stando sul master, cancella il branch dal locale
+
