@@ -68,9 +68,40 @@ public class RegisterDAO {
 			String tempQuery = "SELECT username FROM utenti";
 			ResultSet tempRs = tempSt.executeQuery(tempQuery);
 
-			if (tempRs.next()) {
+			while (tempRs.next()) {
 				String dummyUsName = tempRs.getString("username");
 				if (dummyUsName.equals(usname)) {
+
+					status = "trovato";
+					con.close();
+					return status;
+				}
+
+			}
+
+			con.close();
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+
+		status = "non trovato";
+		return status;
+	}
+
+	public String checkEmail(String email) {
+
+		String status = null;
+
+		try {
+			con = ConnectionDB.dbConn();
+			Statement tempSt = con.createStatement();
+			String tempQuery = "SELECT email FROM utenti";
+			ResultSet tempRs = tempSt.executeQuery(tempQuery);
+
+			while (tempRs.next()) {
+				String dummyEmail = tempRs.getString("email");
+				if (dummyEmail.equals(email)) {
 
 					status = "trovato";
 					con.close();

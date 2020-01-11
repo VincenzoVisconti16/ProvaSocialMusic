@@ -1,8 +1,7 @@
 package logic.boundary;
 
 import java.text.SimpleDateFormat;
-import java.time.ZoneId;
-import java.util.Calendar;
+
 import java.util.Date;
 import java.util.Locale;
 
@@ -11,18 +10,15 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import logic.actors.AutenthicatedUser;
-import logic.dao.RegisterDAO;
+import logic.control.ControlRegister;
 import logic.utils.WindowManagerGUI;
 
 public class RegisterGUI {
@@ -54,6 +50,7 @@ public class RegisterGUI {
 		CheckBox bandField = new CheckBox();
 		TextField nameBandField = new TextField();
 
+		ControlRegister ctrlRegister = new ControlRegister();
 		WindowManagerGUI win = new WindowManagerGUI();
 
 		usernameField.setMaxWidth(200);
@@ -90,7 +87,7 @@ public class RegisterGUI {
 		nameBandField.setVisible(false);
 
 		Text birth = new Text();
-		birth.setText("When are you born?");
+		birth.setText("When were you born?");
 
 		Text band = new Text();
 		band.setText("Are you in a band?");
@@ -108,103 +105,64 @@ public class RegisterGUI {
 
 				if (usernameField.getText() == null || usernameField.getText().trim().isEmpty()) {
 
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Social Music");
-					alert.setHeaderText("Registration Error");
-					alert.setContentText("Error: You didn't insert Username. Retry!");
-
-					alert.showAndWait();
+					ctrlRegister.sendUsernameAlert();
 
 				} else if (passwordField.getText() == null || passwordField.getText().trim().isEmpty()) {
 
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Social Music");
-					alert.setHeaderText("Registration Error");
-					alert.setContentText("Error: You didn't insert Password. Retry!");
-
-					alert.showAndWait();
+					ctrlRegister.sendPasswordAlert();
 
 				} else if (emailField.getText() == null || emailField.getText().trim().isEmpty()) {
 
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Social Music");
-					alert.setHeaderText("Registration Error");
-					alert.setContentText("Error: You didn't insert Email. Retry!");
-
-					alert.showAndWait();
+					ctrlRegister.sendEmailAlert();
 
 				} else if (firstNameField.getText() == null || firstNameField.getText().trim().isEmpty()) {
 
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Social Music");
-					alert.setHeaderText("Registration Error");
-					alert.setContentText("Error: You didn't insert First Name. Retry!");
-
-					alert.showAndWait();
+					ctrlRegister.sendFirstNameAlert();
 
 				} else if (instrPlayedField.getText() == null || instrPlayedField.getText().trim().isEmpty()) {
 
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Social Music");
-					alert.setHeaderText("Registration Error");
-					alert.setContentText("Error: You didn't insert the Instrument Played. Retry!");
-
-					alert.showAndWait();
+					ctrlRegister.sendInstrPlayedAlert();
 
 				} else if (bandField.isSelected() && nameBandField.getText().equals("")) {
 
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Social Music");
-					alert.setHeaderText("Registration Error");
-					alert.setContentText("Error: You didn't insert Name of your Band. Retry!");
-
-					alert.showAndWait();
+					ctrlRegister.sendNameBandAlert();
 
 				} else {
 
-					RegisterDAO registerDAO = new RegisterDAO();
-					AutenthicatedUser user = new AutenthicatedUser();
-					user.setUsername(usernameField.getText());
-					user.setPassword(passwordField.getText());
-					user.setEmail(emailField.getText());
-					user.setFirstname(firstNameField.getText());
-					user.setLastname(lastNameField.getText());
+					String bandFlag = null;
+
+					if (bandField.isSelected() && nameBandField.getText().equals("") == false) {
+
+						bandFlag = "band";
+
+					} else {
+
+						bandFlag = "noband";
+
+					}
 
 					String subsDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
-					user.setSubsDate(subsDate);
+					String result1 = ctrlRegister.checkUsernameAlreadyTaken(usernameField.getText());
+					String result2 = ctrlRegister.checkEmailAlreadyTaken(emailField.getText());
 
-					String birthDate = birthDateField.getValue().toString();
+					if (result1.equals("trovato")) {
 
-					user.setBirthDate(birthDate);
-
-					user.setZone(zoneField.getText());
-					user.setInstrPlayed(instrPlayedField.getText());
-
-					if (bandField.isSelected() && nameBandField.getText().equals("") == false) {
-						user.setBand(1);
-						user.setNameBand(nameBandField.getText());
-					} else {
-						user.setBand(0);
-						user.setNameBand(null);
-					}
-
-					String result = registerDAO.checkUsername(usernameField.getText());
-
-					if (result.equals("trovato")) {
-
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Social Music");
-						alert.setHeaderText("Registration Error");
-						alert.setContentText("Error: Username already in use. Retry!");
-
+						ctrlRegister.sendUsernameAlreadyTakenAlert();
 						usernameField.clear();
 
-						alert.showAndWait();
+					} else if (result2.equals("trovato")) {
 
-					} else {
+						ctrlRegister.sendEmailAlreadyTakenAlert();
+						emailField.clear();
+					}
 
-						registerDAO.insertUtente(user);
+					else {
+
+						ctrlRegister.registerUser(usernameField.getText(), passwordField.getText(),
+								emailField.getText(), firstNameField.getText(), lastNameField.getText(), subsDate,
+								birthDateField.getValue().toString(), zoneField.getText(), instrPlayedField.getText(),
+								bandFlag, nameBandField.getText());
 
 						usernameField.clear();
 						passwordField.clear();
@@ -216,9 +174,10 @@ public class RegisterGUI {
 						instrPlayedField.clear();
 						bandField.setSelected(false);
 						nameBandField.clear();
-
+						ctrlRegister.registrationAlert();
 						win.loadLoginPage();
 					}
+
 				}
 			}
 		});

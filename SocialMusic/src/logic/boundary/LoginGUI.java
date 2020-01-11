@@ -3,15 +3,13 @@ package logic.boundary;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import logic.actors.AutenthicatedUser;
-import logic.dao.UserDAO;
+import logic.control.ControlLogin;
 import logic.utils.WindowManagerGUI;
 
 public class LoginGUI {
@@ -21,6 +19,8 @@ public class LoginGUI {
 		VBox root = new VBox();
 
 		Text title = new Text();
+
+		ControlLogin ctrlLogin = new ControlLogin();
 
 		title.setText("Benvenuto in Social Music!");
 
@@ -47,43 +47,26 @@ public class LoginGUI {
 
 				if (usernameField.getText() == null || usernameField.getText().trim().isEmpty()) {
 
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Social Music");
-					alert.setHeaderText("Login Error");
-					alert.setContentText("Error: You didn't insert Username. Retry!");
-
-					alert.showAndWait();
+					ctrlLogin.sendUsernameAlert();
 
 				} else if (passwordField.getText() == null || passwordField.getText().trim().isEmpty()) {
 
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("Social Music");
-					alert.setHeaderText("Login Error");
-					alert.setContentText("Error: You didn't insert Password. Retry!");
-
-					alert.showAndWait();
+					ctrlLogin.sendPasswordAlert();
 
 				} else {
-					String username = usernameField.getText();
-					String password = passwordField.getText();
-					UserDAO userDAO = new UserDAO();
-					AutenthicatedUser user = userDAO.getUtenteByUserPass(username, password);
 
-					if (user != null && user.getUsername() != null) {
+					int result = ctrlLogin.checkIfRegistered(usernameField.getText(), passwordField.getText());
+
+					if (result == 1) {
 
 						win.loadHomePage();
 
 					} else {
 
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setTitle("Social Music");
-						alert.setHeaderText("Login Error");
-						alert.setContentText("Error: Data not found. Retry!");
-
+						ctrlLogin.sendDataNotFoundAlert();
 						usernameField.clear();
 						passwordField.clear();
 
-						alert.showAndWait();
 					}
 				}
 			}
