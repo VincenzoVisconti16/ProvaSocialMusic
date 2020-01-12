@@ -73,6 +73,8 @@ public class RegisterGUI {
 		lastNameField.setAlignment(Pos.CENTER_LEFT);
 		lastNameField.setPromptText("Last Name");
 
+		birthDateField.setEditable(false);
+
 		zoneField.setMaxWidth(200);
 		zoneField.setAlignment(Pos.CENTER_LEFT);
 		zoneField.setPromptText("Zone");
@@ -87,7 +89,7 @@ public class RegisterGUI {
 		nameBandField.setVisible(false);
 
 		Text birth = new Text();
-		birth.setText("When were you born?");
+		birth.setText("When were you born?  ");
 
 		Text band = new Text();
 		band.setText("Are you in a band?");
@@ -126,6 +128,11 @@ public class RegisterGUI {
 				} else if (bandField.isSelected() && nameBandField.getText().equals("")) {
 
 					ctrlRegister.sendNameBandAlert();
+
+				} else if (!ctrlRegister.checkIfEmailIsValid(emailField.getText())) {
+
+					ctrlRegister.sendEmailNotValidAlert();
+					emailField.clear();
 
 				} else {
 

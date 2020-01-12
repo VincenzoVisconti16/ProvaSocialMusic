@@ -5,18 +5,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import logic.actors.AutenthicatedUser;
 import logic.utils.ConnectionDB;
 
 public class RecoverDataDAO {
 
-	public RecoverDataDAO() {
-
-	}
+	static Connection con;
 
 	public String getUserNameByEmail(String email) {
 
-		Connection con;
 		Statement st;
 		ResultSet rs;
 		String username = null;
@@ -42,10 +38,9 @@ public class RecoverDataDAO {
 
 		return username;
 	}
-	
+
 	public String getPasswordByEmail(String email) {
 
-		Connection con;
 		Statement st;
 		ResultSet rs;
 		String password = null;
@@ -73,8 +68,6 @@ public class RecoverDataDAO {
 	}
 
 	public String checkEmail(String email) {
-
-		Connection con;
 
 		String status = null;
 

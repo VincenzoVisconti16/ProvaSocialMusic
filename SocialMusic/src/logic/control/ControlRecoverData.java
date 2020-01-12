@@ -2,15 +2,11 @@ package logic.control;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import logic.dao.RecoverDataDAO;
-import logic.dao.RegisterDAO;
+
+import logic.entity.RecoverData;
 import logic.utils.MailSender;
 
 public class ControlRecoverData {
-
-	public ControlRecoverData() {
-
-	}
 
 	public void sendEmailAlert() {
 
@@ -32,32 +28,35 @@ public class ControlRecoverData {
 		alert.showAndWait();
 	}
 
-	public void sendEmail(String email) {
-
-		MailSender ms = new MailSender();
-		RecoverDataDAO recDataDAO = new RecoverDataDAO();
-		String username = recDataDAO.getUserNameByEmail(email);
-		String password = recDataDAO.getPasswordByEmail(email);
-
-		ms.sendMail(email, username, password);
-	}
-
-	public String checkIfRegistered(String email) {
-
-		RecoverDataDAO recDataDAO = new RecoverDataDAO();
-		String result = recDataDAO.checkEmail(email);
-
-		return result;
-	}
-
 	public void sendDataNotFoundAlert() {
 
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Social Music");
 		alert.setHeaderText("Recover Data Error");
 		alert.setContentText("Error: Email not found. Retry!");
-		
+
 		alert.showAndWait();
+	}
+
+	public void sendEmail(String email) {
+
+		MailSender ms = new MailSender();
+
+		RecoverData recoverData = new RecoverData();
+		recoverData.setEmail(email);
+		String username = recoverData.getUserNameByEmail();
+		String password = recoverData.getPasswordByEmail();
+
+		ms.sendMail(email, username, password);
+	}
+
+	public String checkIfRegistered(String email) {
+
+		RecoverData recoverData = new RecoverData();
+		recoverData.setEmail(email);
+		String result = recoverData.checkIfRegistered();
+
+		return result;
 	}
 
 }

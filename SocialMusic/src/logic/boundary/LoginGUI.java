@@ -55,9 +55,9 @@ public class LoginGUI {
 
 				} else {
 
-					int result = ctrlLogin.checkIfRegistered(usernameField.getText(), passwordField.getText());
+					String result = ctrlLogin.checkIfRegistered(usernameField.getText(), passwordField.getText());
 
-					if (result == 1) {
+					if (result == "trovato") {
 
 						win.loadHomePage();
 

@@ -2,13 +2,9 @@ package logic.control;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import logic.actors.AutenthicatedUser;
-import logic.dao.UserDAO;
+import logic.entity.Login;
 
 public class ControlLogin {
-
-	public ControlLogin() {
-	}
 
 	public void sendUsernameAlert() {
 
@@ -40,17 +36,12 @@ public class ControlLogin {
 		alert.showAndWait();
 	}
 
-	public int checkIfRegistered(String username, String password) {
+	public String checkIfRegistered(String username, String password) {
 
-		int result = 0;
-
-		UserDAO userDAO = new UserDAO();
-		AutenthicatedUser user = userDAO.getUtenteByUserPass(username, password);
-
-		if (user != null && user.getUsername() != null) {
-
-			result = 1;
-		}
+		Login login = new Login();
+		login.setUsername(username);
+		login.setPassword(password);
+		String result = login.checkIfRegistered();
 
 		return result;
 	}

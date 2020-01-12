@@ -1,9 +1,12 @@
 package logic.control;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import logic.actors.AutenthicatedUser;
-import logic.dao.RegisterDAO;
+
+import logic.entity.Register;
 
 public class ControlRegister {
 
@@ -70,13 +73,15 @@ public class ControlRegister {
 
 		alert.showAndWait();
 	}
+	
+	public void sendEmailNotValidAlert() {
+		
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Social Music");
+		alert.setHeaderText("Registration Error");
+		alert.setContentText("Error: Email format not valid. Retry!");
 
-	public String checkUsernameAlreadyTaken(String username) {
-
-		RegisterDAO registerDAO = new RegisterDAO();
-		String result = registerDAO.checkUsername(username);
-
-		return result;
+		alert.showAndWait();		
 	}
 
 	public void sendUsernameAlreadyTakenAlert() {
@@ -87,42 +92,6 @@ public class ControlRegister {
 		alert.setContentText("Error: Username already in use. Retry!");
 
 		alert.showAndWait();
-	}
-
-	public void registerUser(String username, String password, String email, String firstName, String lastName,
-			String subsDate, String birthDate, String zone, String instrPlayed, String bandFlag, String nameBand) {
-
-		RegisterDAO registerDAO = new RegisterDAO();
-		AutenthicatedUser user = new AutenthicatedUser();
-		user.setUsername(username);
-		user.setPassword(password);
-		user.setEmail(email);
-		user.setFirstname(firstName);
-		user.setLastname(lastName);
-		user.setSubsDate(subsDate);
-		user.setBirthDate(birthDate);
-		user.setZone(zone);
-		user.setInstrPlayed(instrPlayed);
-
-		if (bandFlag.equals("band")) {
-
-			user.setBand(1);
-			user.setNameBand(nameBand);
-		} else {
-
-			user.setBand(0);
-			user.setNameBand(null);
-		}
-
-		registerDAO.insertUtente(user);
-	}
-
-	public String checkEmailAlreadyTaken(String email) {
-
-		RegisterDAO registerDAO = new RegisterDAO();
-		String result = registerDAO.checkEmail(email);
-
-		return result;
 	}
 
 	public void sendEmailAlreadyTakenAlert() {
@@ -144,4 +113,61 @@ public class ControlRegister {
 
 		alert.showAndWait();
 	}
+
+	public void registerUser(String username, String password, String email, String firstName, String lastName,
+			String subsDate, String birthDate, String zone, String instrPlayed, String bandFlag, String nameBand) {
+
+		Register register = new Register();
+
+		register.setUsername(username);
+		register.setPassword(password);
+		register.setEmail(email);
+		register.setFirstname(firstName);
+		register.setLastname(lastName);
+		register.setSubsDate(subsDate);
+		register.setBirthDate(birthDate);
+		register.setZone(zone);
+		register.setInstrPlayed(instrPlayed);
+
+		if (bandFlag.equals("band")) {
+
+			register.setBandFlag(1);
+			register.setNameBand(nameBand);
+		} else {
+
+			register.setBandFlag(0);
+			register.setNameBand(null);
+		}
+
+		register.insertUtente(register);
+	}
+
+	public String checkUsernameAlreadyTaken(String username) {
+
+		Register register = new Register();
+		register.setUsername(username);
+		String result = register.checkUsernameAlreadyTaken();
+
+		return result;
+	}
+
+	public String checkEmailAlreadyTaken(String email) {
+
+		Register register = new Register();
+		register.setEmail(email);
+		String result = register.checkEmailAlreadyTaken();
+
+		return result;
+	}
+
+	public boolean checkIfEmailIsValid(String email) {
+		String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-z"
+				+ "A-Z]{2,7}$";
+
+		Pattern pat = Pattern.compile(emailRegex);
+		if (email == null)
+			return false;
+		return pat.matcher(email).matches();
+	}
+
 }

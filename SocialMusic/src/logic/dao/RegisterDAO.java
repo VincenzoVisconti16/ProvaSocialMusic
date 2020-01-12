@@ -5,30 +5,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import logic.actors.AutenthicatedUser;
+import logic.entity.Register;
 import logic.utils.ConnectionDB;
 
 public class RegisterDAO {
 
-	public RegisterDAO() {
-
-	}
-
 	static Connection con;
-	static Statement st;
-	static ResultSet rs;
 
-	public void insertUtente(AutenthicatedUser user) {
+	public void insertUser(Register register) {
 
 		try {
 			con = ConnectionDB.dbConn();
-			st = con.createStatement();
+			Statement tempSt = con.createStatement();
 			String sql = "INSERT INTO utenti (idUtente,username,password,email,firstname,lastname,subsdate,birthdate,zone,instrplayed,band,nameband) "
-					+ "VALUES ('" + idGenerator() + "','" + user.getUsername() + "','" + user.getPassword() + "','"
-					+ user.getEmail() + "','" + user.getFirstname() + "','" + user.getLastname() + "','"
-					+ user.getSubsDate() + "','" + user.getBirthDate() + "','" + user.getZone() + "','"
-					+ user.getInstrPlayed() + "','" + user.getBand() + "','" + user.getNameBand() + "')";
-			rs = st.executeQuery(sql);
+					+ "VALUES ('" + idGenerator() + "','" + register.getUsername() + "','" + register.getPassword()
+					+ "','" + register.getEmail() + "','" + register.getFirstname() + "','" + register.getLastname()
+					+ "','" + register.getSubsDate() + "','" + register.getBirthDate() + "','" + register.getZone()
+					+ "','" + register.getInstrPlayed() + "','" + register.getBandFlag() + "','"
+					+ register.getNameBand() + "')";
+			tempSt.executeQuery(sql);
 			con.close();
 
 		} catch (SQLException e) {
@@ -58,7 +53,7 @@ public class RegisterDAO {
 		return result;
 	}
 
-	public String checkUsername(String usname) {
+	public String checkUsernameAlreadyTaken(String usname) {
 
 		String status = null;
 
@@ -89,7 +84,7 @@ public class RegisterDAO {
 		return status;
 	}
 
-	public String checkEmail(String email) {
+	public String checkEmailAlreadyTaken(String email) {
 
 		String status = null;
 
