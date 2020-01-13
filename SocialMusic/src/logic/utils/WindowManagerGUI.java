@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import logic.boundary.LoginGUI;
 import logic.boundary.RecoverDataGUI;
 import logic.boundary.RegisterGUI;
+import logic.boundary.SamplePostGUI;
 import logic.boundary.SendMessagesGUI;
 import logic.boundary.TopicGUI;
 
@@ -39,7 +40,7 @@ public class WindowManagerGUI extends Application {
         VBox Home = HomepageGUI.getHomepageScene();
         VBox Messages = SendMessagesGUI.getMessagesScene();
         //VBox Profile = ProfileGUI.getProfileScene();
-        //VBox SamplePost = SamplePostGUI.getSamplePostScene();
+        VBox SamplePost = SamplePostGUI.getSamplePostScene();
         //VBox MemberBand = MemberBandRequestGUI.getMemberBandScene();
         VBox Topic = TopicGUI.getTopicScene();
         VBox Ranking = RankingGUI.getRankingScene();
@@ -51,9 +52,9 @@ public class WindowManagerGUI extends Application {
         RecoverDataPage = new Scene(RecoverData,500,500);
         HomePage = new Scene(Home,500,500);
         MessagesPage = new Scene(Messages,500,500);
-        /*ProfilePage = new Scene(Profile,500,500);
+        /*ProfilePage = new Scene(Profile,500,500);*/
         SamplePostPage = new Scene(SamplePost,500,500);
-        MemberBandPage = new Scene(MemberBand,500,500);*/
+        /*MemberBandPage = new Scene(MemberBand,500,500);*/
         TopicPage = new Scene(Topic,500,500);
         RankingPage = new Scene(Ranking,500,500);
         //DoAReportPage = new Scene(DoAReport,500,500);
