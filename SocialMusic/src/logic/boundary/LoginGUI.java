@@ -59,6 +59,7 @@ public class LoginGUI {
 
 					if (result == "trovato") {
 
+						/*ctrlLogin.setLogged(usernameField.getText());*/
 						win.loadHomePage();
 
 					} else {

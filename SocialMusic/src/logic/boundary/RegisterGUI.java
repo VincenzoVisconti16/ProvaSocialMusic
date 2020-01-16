@@ -1,10 +1,5 @@
 package logic.boundary;
 
-import java.text.SimpleDateFormat;
-
-import java.util.Date;
-import java.util.Locale;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -18,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+
 import logic.control.ControlRegister;
 import logic.utils.WindowManagerGUI;
 
@@ -138,7 +134,7 @@ public class RegisterGUI {
 
 					String bandFlag = null;
 
-					if (bandField.isSelected() && nameBandField.getText().equals("") == false) {
+					if (bandField.isSelected() && !nameBandField.getText().equals("")) {
 
 						bandFlag = "band";
 
@@ -147,8 +143,6 @@ public class RegisterGUI {
 						bandFlag = "noband";
 
 					}
-
-					String subsDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
 					String result1 = ctrlRegister.checkUsernameAlreadyTaken(usernameField.getText());
 					String result2 = ctrlRegister.checkEmailAlreadyTaken(emailField.getText());
@@ -167,7 +161,7 @@ public class RegisterGUI {
 					else {
 
 						ctrlRegister.registerUser(usernameField.getText(), passwordField.getText(),
-								emailField.getText(), firstNameField.getText(), lastNameField.getText(), subsDate,
+								emailField.getText(), firstNameField.getText(), lastNameField.getText(),
 								birthDateField.getValue().toString(), zoneField.getText(), instrPlayedField.getText(),
 								bandFlag, nameBandField.getText());
 

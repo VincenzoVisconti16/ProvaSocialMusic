@@ -1,12 +1,15 @@
 package logic.control;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-
-import logic.entity.Register;
+import logic.actors.User;
+import logic.dao.UserDAO;
 
 public class ControlRegister {
 
@@ -73,15 +76,15 @@ public class ControlRegister {
 
 		alert.showAndWait();
 	}
-	
+
 	public void sendEmailNotValidAlert() {
-		
+
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Social Music");
 		alert.setHeaderText("Registration Error");
 		alert.setContentText("Error: Email format not valid. Retry!");
 
-		alert.showAndWait();		
+		alert.showAndWait();
 	}
 
 	public void sendUsernameAlreadyTakenAlert() {
@@ -115,47 +118,48 @@ public class ControlRegister {
 	}
 
 	public void registerUser(String username, String password, String email, String firstName, String lastName,
-			String subsDate, String birthDate, String zone, String instrPlayed, String bandFlag, String nameBand) {
+			String birthDate, String zone, String instrPlayed, String bandFlag, String nameBand) {
 
-		Register register = new Register();
+		UserDAO userDAO = new UserDAO();
+		User user = new User();
 
-		register.setUsername(username);
-		register.setPassword(password);
-		register.setEmail(email);
-		register.setFirstname(firstName);
-		register.setLastname(lastName);
-		register.setSubsDate(subsDate);
-		register.setBirthDate(birthDate);
-		register.setZone(zone);
-		register.setInstrPlayed(instrPlayed);
+		String subsDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+
+		user.setUsername(username);
+		user.setPassword(password);
+		user.setEmail(email);
+		user.setFirstname(firstName);
+		user.setLastname(lastName);
+		user.setSubsDate(subsDate);
+		user.setBirthDate(birthDate);
+		user.setZone(zone);
+		user.setInstrPlayed(instrPlayed);
 
 		if (bandFlag.equals("band")) {
 
-			register.setBandFlag(1);
-			register.setNameBand(nameBand);
+			user.setBand(1);
+			user.setNameBand(nameBand);
 		} else {
 
-			register.setBandFlag(0);
-			register.setNameBand(null);
+			user.setBand(0);
+			user.setNameBand(null);
 		}
 
-		register.insertUtente(register);
+		userDAO.registerUser(user);
 	}
 
 	public String checkUsernameAlreadyTaken(String username) {
 
-		Register register = new Register();
-		register.setUsername(username);
-		String result = register.checkUsernameAlreadyTaken();
+		UserDAO userDAO = new UserDAO();
+		String result = userDAO.checkUsernameAlreadyTaken(username);
 
 		return result;
 	}
 
 	public String checkEmailAlreadyTaken(String email) {
 
-		Register register = new Register();
-		register.setEmail(email);
-		String result = register.checkEmailAlreadyTaken();
+		UserDAO userDAO = new UserDAO();
+		String result = userDAO.checkEmailAlreadyTaken(email);
 
 		return result;
 	}

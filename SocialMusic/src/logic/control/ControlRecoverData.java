@@ -2,8 +2,7 @@ package logic.control;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-
-import logic.entity.RecoverData;
+import logic.dao.UserDAO;
 import logic.utils.MailSender;
 
 public class ControlRecoverData {
@@ -42,19 +41,17 @@ public class ControlRecoverData {
 
 		MailSender ms = new MailSender();
 
-		RecoverData recoverData = new RecoverData();
-		recoverData.setEmail(email);
-		String username = recoverData.getUserNameByEmail();
-		String password = recoverData.getPasswordByEmail();
+		UserDAO userDAO = new UserDAO();
+		String username = userDAO.getUserNameByEmail(email);
+		String password = userDAO.getPasswordByEmail(email);
 
 		ms.sendMail(email, username, password);
 	}
 
 	public String checkIfRegistered(String email) {
 
-		RecoverData recoverData = new RecoverData();
-		recoverData.setEmail(email);
-		String result = recoverData.checkIfRegistered();
+		UserDAO userDAO = new UserDAO();
+		String result = userDAO.checkEmail(email);
 
 		return result;
 	}

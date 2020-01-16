@@ -2,7 +2,7 @@ package logic.actors;
 
 import java.util.Date;
 
-public class AdminUser extends AutenthicatedUser{
+public class AdminUser extends User{
 	
 	public AdminUser(int idUtente, String username, String password, String email, String firstname, String lastname,
 			Date subsDate, Date birthDate, String zone, String instrPlayed, Boolean band, String nameBand) {

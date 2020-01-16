@@ -2,7 +2,8 @@ package logic.control;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import logic.entity.Login;
+import logic.actors.User;
+import logic.dao.UserDAO;
 
 public class ControlLogin {
 
@@ -38,12 +39,18 @@ public class ControlLogin {
 
 	public String checkIfRegistered(String username, String password) {
 
-		Login login = new Login();
-		login.setUsername(username);
-		login.setPassword(password);
-		String result = login.checkIfRegistered();
+		UserDAO userDAO = new UserDAO();
+		String result = userDAO.checkIfRegistered(username, password);
 
 		return result;
 	}
+	
+	/*public void setLogged(String username) {
+		
+		UserDAO userDAO = new UserDAO();
+		User user = UserDAO.getData(username);
+		userDAO.setLogged(username);
+		
+	}*/
 
 }
