@@ -24,7 +24,7 @@ public class ViewRulesGUI {
 	    	
 	    	public void handle(ActionEvent event) {
 	    	
-	    		win.loadHomePage();
+	    		//win.loadHomePage();
 	    	}
 	    });
 		
@@ -59,7 +59,7 @@ profileBTN.setOnAction(new EventHandler<ActionEvent>(){
 			
 			public void handle(ActionEvent event) {
 				
-				win.loadHomePage(); 
+				//win.loadHomePage(); 
 			}
 			
 		});

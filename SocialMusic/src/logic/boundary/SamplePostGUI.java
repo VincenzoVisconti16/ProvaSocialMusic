@@ -90,7 +90,7 @@ public class SamplePostGUI {
 				fileNameField.setText(null);
 				btnPlay.setVisible(false);
 				btnPause.setVisible(false);
-				win.loadHomePage();
+				//win.loadHomePage();
 			}
 		});
 

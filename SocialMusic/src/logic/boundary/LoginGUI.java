@@ -9,6 +9,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import logic.actors.User;
 import logic.control.ControlLogin;
 import logic.utils.WindowManagerGUI;
 
@@ -57,10 +58,11 @@ public class LoginGUI {
 
 					String result = ctrlLogin.checkIfRegistered(usernameField.getText(), passwordField.getText());
 
-					if (result == "trovato") {
-
-						/*ctrlLogin.setLogged(usernameField.getText());*/
-						win.loadHomePage();
+					if (result.equals("trovato")) {
+						
+						User user = ctrlLogin.getUser(usernameField.getText(), passwordField.getText());
+	
+						win.loadHomePage(user);
 
 					} else {
 

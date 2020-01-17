@@ -7,17 +7,20 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import logic.actors.User;
 import logic.control.ControlLogin;
 
 public class HomepageGUI {
 
-	public static VBox getHomepageScene() {
+	public static VBox getHomepageScene(User user) {
 
 		VBox root = new VBox();
 		Text title = new Text();
+		Text welcome = new Text();
 		HBox hbox = new HBox();
 
 		title.setText("Homepage");
+		welcome.setText("Welcome " + user.getUsername() + "!!!");
 
 		Button homeBTN = new Button("Social Music");
 		Button messagesBTN = new Button("Messages");
@@ -36,7 +39,7 @@ public class HomepageGUI {
 
 			public void handle(ActionEvent event) {
 
-				win.loadHomePage();
+				win.loadHomePage(user);
 			}
 		});
 

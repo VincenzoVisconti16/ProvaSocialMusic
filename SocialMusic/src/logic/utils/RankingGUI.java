@@ -24,7 +24,7 @@ public class RankingGUI {
 			
 			public void handle(ActionEvent event) {
 				
-				win.loadHomePage();
+				//win.loadHomePage();
 			}
 		});
 		
@@ -58,7 +58,7 @@ public class RankingGUI {
 			
 			public void handle(ActionEvent event) {
 				
-				win.loadHomePage(); 
+				//win.loadHomePage(); 
 			}
 			
 		});

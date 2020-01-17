@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import logic.actors.User;
 import logic.boundary.LoginGUI;
 import logic.boundary.RecoverDataGUI;
 import logic.boundary.RegisterGUI;
@@ -33,11 +34,11 @@ public class WindowManagerGUI extends Application {
     public void start(Stage myStage) {
         WindowManagerGUI.myStage = myStage;
         myStage.setTitle("Program Window");
-
+        User user = new User();
         VBox Login = LoginGUI.getLoginPageScene();
         VBox Register = RegisterGUI.getRegisterPageScene();
         VBox RecoverData = RecoverDataGUI.getRecoverDataPageScene();
-        VBox Home = HomepageGUI.getHomepageScene();
+        VBox Home = HomepageGUI.getHomepageScene(user);
         VBox Messages = SendMessagesGUI.getMessagesScene();
         //VBox Profile = ProfileGUI.getProfileScene();
         VBox SamplePost = SamplePostGUI.getSamplePostScene();
@@ -76,7 +77,7 @@ public class WindowManagerGUI extends Application {
     	WindowManagerGUI.myStage.setScene(RecoverDataPage);
     }
     
-	public static void loadHomePage() {
+	public static void loadHomePage(User user) {
 		WindowManagerGUI.myStage.setScene(HomePage);
 	}
 	

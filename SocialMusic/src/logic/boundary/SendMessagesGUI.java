@@ -36,7 +36,7 @@ public class SendMessagesGUI {
 				
 			public void handle(ActionEvent event) {
 				
-				win.loadHomePage();
+				//win.loadHomePage();
 				
 			}
 		});
@@ -63,7 +63,7 @@ public class SendMessagesGUI {
 			
 			public void handle(ActionEvent event) {
 				
-				win.loadHomePage();
+				//win.loadHomePage();
 			
 			}
 		

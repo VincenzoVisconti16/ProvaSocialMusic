@@ -39,18 +39,18 @@ public class ControlLogin {
 
 	public String checkIfRegistered(String username, String password) {
 
-		UserDAO userDAO = new UserDAO();
-		String result = userDAO.checkIfRegistered(username, password);
+		User user = new User();
+		String result = user.checkIfRegistered(username, password);
 
 		return result;
 	}
-	
-	/*public void setLogged(String username) {
+
+	public User getUser(String username, String password) {
 		
-		UserDAO userDAO = new UserDAO();
-		User user = UserDAO.getData(username);
-		userDAO.setLogged(username);
+		User user = new User();
+		user.getUserFromUsernameAndPassword(username, password);
+		return user;
 		
-	}*/
+	}
 
 }

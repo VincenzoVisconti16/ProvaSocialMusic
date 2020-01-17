@@ -47,7 +47,7 @@ public class UserDAO {
 		return status;
 	}
 
-	/*public void setLogged(String username) {
+	public void setLogged(String username) {
 
 		try {
 			con = ConnectionDB.dbConn();
@@ -65,7 +65,7 @@ public class UserDAO {
 			e.printStackTrace();
 		}
 
-	}*/
+	}
 
 	// Funcs for REGISTER
 
@@ -79,7 +79,7 @@ public class UserDAO {
 					+ user.getEmail() + "','" + user.getFirstname() + "','" + user.getLastname() + "','"
 					+ user.getSubsDate() + "','" + user.getBirthDate() + "','" + user.getZone() + "','"
 					+ user.getInstrPlayed() + "','" + user.getBand() + "','" + user.getNameBand() + "','"
-					+ "NON LOGGATO" + ")";
+					+ user.getLogged() + ")";
 			tempSt.executeQuery(sql);
 			con.close();
 
@@ -261,28 +261,40 @@ public class UserDAO {
 		return status;
 	}
 
-	public static User getData(String username) {
+	public User getData(String username, String password) {
 
 		User user = new User();
 		try {
 
 			con = ConnectionDB.dbConn();
 			Statement tempSt = con.createStatement();
-			String sql = "SELECT * from utenti WHERE username = '" + username + "'";
+			String sql = "SELECT * FROM utenti WHERE username = '" + username + "'";
 			ResultSet tempRs = tempSt.executeQuery(sql);
 			while (tempRs.next()) {
-				user.setId(tempRs.getInt(1));
-				user.setUsername(tempRs.getString(2));
-				user.setPassword(tempRs.getString(3));
-				user.setEmail(tempRs.getString(4));
-				user.setFirstname(tempRs.getString(5));
-				user.setLastname(tempRs.getString(6));
-				user.setSubsDate(tempRs.getString(7));
-				user.setBirthDate(tempRs.getString(8));
-				user.setZone(tempRs.getString(9));
-				user.setInstrPlayed(tempRs.getString(10));
-				user.setBand(tempRs.getInt(11));
-				user.setNameBand(tempRs.getString(12));
+				user.setId(tempRs.getInt("idUtente"));
+				user.setUsername(tempRs.getString("username"));
+				user.setPassword(tempRs.getString("password"));
+				user.setEmail(tempRs.getString("email"));
+				user.setFirstname(tempRs.getString("firstname"));
+				user.setLastname(tempRs.getString("lastname"));
+				user.setSubsDate(tempRs.getString("subsdate"));
+				user.setBirthDate(tempRs.getString("birthdate"));
+				user.setZone(tempRs.getString("zone"));
+				user.setInstrPlayed(tempRs.getString("instrplayed"));
+				user.setBand(tempRs.getInt("band"));
+				user.setNameBand(tempRs.getString("nameband"));
+				System.out.println(tempRs.getString("logged"));
+
+				String sql2 = "UPDATE utenti SET logged = 'LOGGATO' WHERE username = '" + username + "'";
+				Statement tempSt2 = con.createStatement();
+				tempSt2.executeQuery(sql2);
+				Statement tempSt3 = con.createStatement();
+				String sql3 = "SELECT logged FROM utenti WHERE username = '" + username + "'";
+				ResultSet rs3 = tempSt3.executeQuery(sql3);
+				if(rs3.next()) {
+					user.setLogged(rs3.getString("logged"));
+				}
+				System.out.println(rs3.getString("logged"));
 			}
 
 			con.close();
